@@ -1,11 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, LegacyRef } from 'react'
 import initThreeJs from './config/index'
 
 export default function VRRoom() {
-	const threeJSDom = useRef<HTMLDivElement>()
+	const threeJSDom = useRef<LegacyRef<HTMLDivElement> | undefined>(null)
 	useEffect(() => {
-		console.log('mounted event')
-		initThreeJs(threeJSDom)
+		initThreeJs(threeJSDom.current as unknown as HTMLDivElement)
 	}, [])
-	return <div className='App' ref={threeJSDom}></div>
+	return (
+		<div
+			className='App'
+			ref={threeJSDom as unknown as LegacyRef<HTMLDivElement> | undefined}
+		></div>
+	)
 }
